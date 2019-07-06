@@ -3,7 +3,7 @@
 [![Build Status](https://mchirico.visualstudio.com/ipblock/_apis/build/status/mchirico.ipblock?branchName=master)](https://mchirico.visualstudio.com/ipblock/_build/latest?definitionId=9&branchName=master)
 
 
-[![Build Status](https://travis-ci.org/mchirico/ipblock.svg?branch=master)](https://travis-ci.org/mchirico/ipblock)
+
 [![codecov](https://codecov.io/gh/mchirico/ipblock/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ipblock)
 # ipblock
 
