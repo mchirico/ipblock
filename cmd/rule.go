@@ -38,7 +38,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
-			fmt.Printf("We need a file to parse")
+			fmt.Printf("We need a file to parse\n\n")
 			return
 		}
 		fileAnalysis.Display(args[0])
