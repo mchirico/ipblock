@@ -44,7 +44,7 @@ func (ft *FT) Fcmd(ips []string) error {
 			fmt.Printf("c: %s\n", c)
 			fmt.Printf("f: %s\n", f)
 			fmt.Printf("ufw insert 20 deny from %s\n\n", c)
-			fmt.Printf("iptables -A INPUT -s %s -j DROP\n\n", c)
+			fmt.Printf("iptables -I INPUT 50 -s %s -j DROP\n\n", c)
 		}
 	}
 	return nil
