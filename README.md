@@ -10,14 +10,26 @@
 ## Notes
 ```
 
+./ipblock rule ./test-fixtures/mail.log
 
-for FILE in de cn it jp es ie ve co pl pa ar br fr gt ru dk sy in mx
+--- SCRIPT ---
+
+#!/bin/bash
+mkdir rules
+cd rules
+curl http://www.ipdeny.com/ipblocks/data/countries/all-zones.tar.gz -o all-zones.tar.gz
+tar -xzf all-zones.tar.gz
+
+
+for FILE in  de mx jp br ar cn es in co ve fr ua sy ie pa dk kr pl gt it ru
 do
   echo -e '#!/bin/bash\n' > ${FILE}.sh
-  awk '{printf("iptables -A INPUT -s %s -j DROP\n",$1)}' "${FILE}.zone"  >> "${FILE}.sh"
+  awk '{printf("iptables -A INPUT -s %!!(MISSING)s(MISSING) -j DROP\n",$1)}' "${FILE}.zone"  >> "${FILE}.sh"
   echo -e 'iptables-save | awk '"'"'!seen[$0]++'"'"'|iptables-restore\n' >> "${FILE}.sh"
   chmod 700 "${FILE}.sh"
 done
+
+
 
 
 
