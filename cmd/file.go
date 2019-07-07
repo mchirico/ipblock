@@ -22,13 +22,13 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/mchirico/ipblock/fileAnalysis"
+
 	"github.com/spf13/cobra"
 )
 
-// ruleCmd represents the rule command
-var ruleCmd = &cobra.Command{
-	Use:   "rule",
+// fileCmd represents the file command
+var fileCmd = &cobra.Command{
+	Use:   "file",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -37,25 +37,20 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-			fmt.Printf("We need a file to parse")
-			return
-		}
-		fileAnalysis.Display(args[0])
-
+		fmt.Println("file called")
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(ruleCmd)
+	rootCmd.AddCommand(fileCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// ruleCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// fileCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// ruleCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// fileCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
