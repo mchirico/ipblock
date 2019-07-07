@@ -21,3 +21,16 @@ func Test_NewFT(t *testing.T) {
 	}
 
 }
+
+func Test_Fcme(t *testing.T) {
+	ft, err := NewFT()
+	if err != nil {
+		t.FailNow()
+	}
+
+	args := []string{"189.91.6.100",
+		"189.91.5.218","72.29.89.6"}
+
+	ft.Fcmd(args)
+
+}

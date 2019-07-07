@@ -33,5 +33,18 @@ func (ft *FT) Find(ip string) (string, string, bool) {
 		}
 	}
 
-	return "", "", true
+	return "", "", false
+}
+
+func (ft *FT) Fcmd(ips []string) (error) {
+
+	fmt.Printf("\n")
+	for _, v := range ips {
+		if c, f, okay := ft.Find(v); okay {
+			fmt.Printf("c: %s\n", c)
+			fmt.Printf("f: %s\n", f)
+			fmt.Printf("ufw insert 20 deny from %s\n\n",c)
+		}
+	}
+	return nil
 }
