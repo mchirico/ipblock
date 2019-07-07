@@ -30,7 +30,7 @@ import (
 // findCmd represents the find command
 var findCmd = &cobra.Command{
 	Use:   "find",
-	Short: "Find block for IP address",
+	Short: "./ipblock find 72.29.89.6 ",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

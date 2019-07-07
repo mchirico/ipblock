@@ -29,7 +29,11 @@ import (
 // ruleCmd represents the rule command
 var ruleCmd = &cobra.Command{
 	Use:   "rule",
-	Short: "A brief description of your command",
+	Short: `rules based on a file
+
+              ./ipblock rule ./test-fixtures/mail.log  
+
+`,
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -41,7 +45,12 @@ to quickly create a Cobra application.`,
 			fmt.Printf("We need a file to parse\n\n")
 			return
 		}
-		fileAnalysis.Display(args[0])
+		result, err := fileAnalysis.Display(args[0])
+		if err != nil {
+			fmt.Printf("%s\n", err)
+			return
+		}
+		fmt.Printf(result)
 
 	},
 }
