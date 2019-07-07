@@ -12,6 +12,8 @@
 
 ./ipblock rule ./test-fixtures/mail.log
 
+# This will generate the script below ...
+
 --- SCRIPT ---
 
 #!/bin/bash
