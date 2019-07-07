@@ -46,7 +46,7 @@ func TestStats(t *testing.T) {
 	for _, v := range m {
 		if v.Zone != "us.zone" {
 			if len(v.Block) > 4 {
-				fmt.Printf("iptables -I INPUT 50 -s %s -j DROP\n", v.Block)
+				fmt.Printf("iptables -I INPUT 50	-s %s -j DROP\n", v.Block)
 			}
 		}
 
