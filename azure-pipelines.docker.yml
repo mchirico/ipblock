@@ -60,4 +60,5 @@ steps:
     DOCKERPASSWORD: $(dockerPassword)
   workingDirectory: '$(modulePath)'
   displayName: 'Building docker image and pushing'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 

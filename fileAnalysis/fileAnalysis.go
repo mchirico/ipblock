@@ -1,6 +1,7 @@
 package fileAnalysis
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/mchirico/ipblock/autogen"
 	"io/ioutil"
@@ -59,7 +60,7 @@ func Stats(b [][]byte) map[string]*STAT {
 			val.Count += 1
 		} else {
 			if cider, file, okay := ft.Find(s); okay {
-				m[s] = &STAT{1,file,cider}
+				m[s] = &STAT{1, file, cider}
 			}
 
 		}
@@ -68,28 +69,64 @@ func Stats(b [][]byte) map[string]*STAT {
 
 }
 
-func Display(file string) {
+func Display(file string) (string, error) {
+
+	var b bytes.Buffer
+
 	array := BuildArray(file)
-    if len(array) < 1 {
-    	return
+	zsummary := map[string]string{}
+	if len(array) < 1 {
+		return "", fmt.Errorf("No IPs in file?")
 	}
 
 	m := Stats(array)
-	for _,v := range m {
-		fmt.Printf("zone: %s\n",v.Zone)
-		fmt.Printf("  block: %s\n",v.Block)
-		fmt.Printf("  count: %d\n",v.Count)
-	}
-
-	fmt.Printf("\nNon us.zone rules:\n\n")
-	for _,v := range m {
+	for _, v := range m {
+		fmt.Fprintf(&b, "zone: %s\n", v.Zone)
+		fmt.Fprintf(&b, "  block: %s\n", v.Block)
+		fmt.Fprintf(&b, "  count: %d\n", v.Count)
 		if v.Zone != "us.zone" {
-			if len(v.Block) > 4 {
-				fmt.Printf("iptables -A INPUT -s %s -j DROP\n", v.Block)
-			}
+			zsummary[v.Zone] = "yes"
 		}
+	}
+
+	fmt.Fprintf(&b, "\nConsider blocking the following:\n\n")
+	for k, _ := range zsummary {
+		fmt.Fprintf(&b, "%s\n", k)
+	}
+
+	fmt.Fprintf(&b, "\n\n")
+	script := `
+
+--- SCRIPT ---
+
+#!/bin/bash
+mkdir rules
+cd rules
+curl http://www.ipdeny.com/ipblocks/data/countries/all-zones.tar.gz -o all-zones.tar.gz
+tar -xzf all-zones.tar.gz
+
+
+for FILE in %s
+do
+  echo -e '#!/bin/bash\n' > ${FILE}.sh
+  awk '{printf("iptables -A INPUT -s %s -j DROP\n",$1)}' "${FILE}.zone"  >> "${FILE}.sh"
+  echo -e 'iptables-save | awk '"'"'!seen[$0]++'"'"'|iptables-restore\n' >> "${FILE}.sh"
+  chmod 700 "${FILE}.sh"
+done
+
+`
+	zoneList := ""
+	for k, _ := range zsummary {
+		if !strings.Contains(k, ".") {
+			continue
+		}
+		r := strings.Split(k, ".")
+		zoneList = zoneList + " " + r[0]
 
 	}
-	fmt.Printf("iptables-save | awk '!seen[$0]++'|iptables-restore\n")
+
+	fmt.Fprintf(&b, script, zoneList)
+
+	return b.String(), nil
 
 }

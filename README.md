@@ -7,20 +7,23 @@
 [![codecov](https://codecov.io/gh/mchirico/ipblock/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ipblock)
 # ipblock
 
-## Build with vendor
+## Notes
 ```
-export GO111MODULE=on
-go mod init
-# Below will put all packages in a vendor folder
-go mod vendor
+
+
+for FILE in de cn it jp es ie ve co pl pa ar br fr gt ru dk sy in mx
+do
+  echo -e '#!/bin/bash\n' > ${FILE}.sh
+  awk '{printf("iptables -A INPUT -s %s -j DROP\n",$1)}' "${FILE}.zone"  >> "${FILE}.sh"
+  echo -e 'iptables-save | awk '"'"'!seen[$0]++'"'"'|iptables-restore\n' >> "${FILE}.sh"
+  chmod 700 "${FILE}.sh"
+done
 
 
 
-go test -v -mod=vendor ./...
-
-# Don't forget the "." in "./cmd/script" below
-go build -v -mod=vendor ./...
 ```
+[Ref: www.ipdeny.com/ipblocks ](http://www.ipdeny.com/ipblocks)
+
 
 
 ## Don't forget golint

@@ -13,7 +13,7 @@ import (
 
 func TestDownload(t *testing.T) {
 	return
-	
+
 	defer util.NewTlib().ConstructDir()()
 
 	url := "http://www.ipdeny.com/ipblocks/data/countries/all-zones.tar.gz"
