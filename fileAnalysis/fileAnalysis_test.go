@@ -71,5 +71,8 @@ func TestDisplay(t *testing.T) {
 		t.Fatalf("Expecting: percent s ")
 	}
 
+	if strings.Contains(r,"MISSING") {
+		t.Fatalf("Need input parameter?")
+	}
 
 }

@@ -116,6 +116,22 @@ do
   chmod 700 "${FILE}.sh"
 done
 
+
+--- ALL IN TEXT ---
+--- Manually add to iptables file --
+
+mkdir rules
+cd rules
+curl http://www.ipdeny.com/ipblocks/data/countries/all-zones.tar.gz -o all-zones.tar.gz
+tar -xzf all-zones.tar.gz
+
+
+echo -e '#\n' > all.txt
+for FILE in %s
+do
+  awk '{printf("-A INPUT -s %%%%s -j DROP\n",$1)}' "${FILE}.zone"  >> all.txt
+done
+
 `
 	zoneList := ""
 	for k, _ := range zsummary {
@@ -128,7 +144,7 @@ done
 	}
 
 	if nonUSzones > 1 {
-		fmt.Fprintf(&b, script, zoneList)
+		fmt.Fprintf(&b, script, zoneList,zoneList)
 	}
 	return b.String(), nil
 
