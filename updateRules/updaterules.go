@@ -2,6 +2,7 @@ package updateRules
 
 // http://www.ipdeny.com/ipblocks/data/countries/all-zones.tar.gz
 // http://www.ipdeny.com/ipblocks/data/countries/MD5SUM
+// https://dev.maxmind.com/geoip/geoip2/geolite2/
 
 import (
 	"archive/tar"

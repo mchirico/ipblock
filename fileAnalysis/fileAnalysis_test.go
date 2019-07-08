@@ -67,5 +67,9 @@ func TestDisplay(t *testing.T) {
 	if !strings.Contains(r, "block: 5.0.0.0/16") {
 		t.Fatalf("Expecting: block: 5.0.0.0/16")
 	}
+	if !strings.Contains(r, "iptables -I INPUT 50 -s %%s -j") {
+		t.Fatalf("Expecting: percent s ")
+	}
+
 
 }
