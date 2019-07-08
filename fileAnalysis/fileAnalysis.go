@@ -72,6 +72,7 @@ func Stats(b [][]byte) map[string]*STAT {
 func Display(file string) (string, error) {
 
 	var b bytes.Buffer
+	nonUSzones := 0
 
 	array := BuildArray(file)
 	zsummary := map[string]string{}
@@ -86,6 +87,7 @@ func Display(file string) (string, error) {
 		fmt.Fprintf(&b, "  count: %d\n", v.Count)
 		if v.Zone != "us.zone" {
 			zsummary[v.Zone] = "yes"
+			nonUSzones += 1
 		}
 	}
 
@@ -125,8 +127,9 @@ done
 
 	}
 
-	fmt.Fprintf(&b, script, zoneList)
-
+	if nonUSzones > 1 {
+		fmt.Fprintf(&b, script, zoneList)
+	}
 	return b.String(), nil
 
 }
