@@ -37,6 +37,26 @@ steps:
   workingDirectory: '$(modulePath)'
   displayName: 'Build'
 
+
+
+# ******************************************************************************************
+#    Example Usage:  (Note, use -md md5, for consistency)
+#
+#  export SUPER_SECRET_PASSWORD="SomPassword"
+#  openssl aes-256-cbc -k "${SUPER_SECRET_PASSWORD}" -md md5  -in rules.v4  -out rules.v4.enc
+#  openssl aes-256-cbc -k "${SUPER_SECRET_PASSWORD}"  -md md5 -in test-fixtures/rules.v4.enc -out test-fixtures/rules.test.v4 -d
+#
+# ******************************************************************************************
+#
+- script: |
+    openssl aes-256-cbc -k "${SUPER_SECRET_PASSWORD}" -md md5 -in test-fixtures/rules.v4.enc -out test-fixtures/rules.v4 -d
+    tail -n4 test-fixtures/rules.v4
+  workingDirectory: '$(modulePath)'
+  env:
+    SUPER_SECRET_PASSWORD: $(SUPER_SECRET_PASSWORD)  
+  displayName: 'Decrypt'
+
+
 - script: |
     set -e
     go test -race -coverprofile=coverage.txt -covermode=atomic ./...
