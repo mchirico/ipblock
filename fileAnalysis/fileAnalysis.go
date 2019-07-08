@@ -143,7 +143,7 @@ done
 
 	}
 
-	if nonUSzones > 1 {
+	if nonUSzones > 0 {
 		fmt.Fprintf(&b, script, zoneList,zoneList)
 	}
 	return b.String(), nil
