@@ -109,7 +109,7 @@ tar -xzf all-zones.tar.gz
 for FILE in %s
 do
   echo -e '#!/bin/bash\n' > ${FILE}.sh
-  awk '{printf("iptables -I INPUT 50 -s %s -j DROP\n",$1)}' "${FILE}.zone"  >> "${FILE}.sh"
+  awk '{printf("iptables -I INPUT 50 -s %%%%s -j DROP\n",$1)}' "${FILE}.zone"  >> "${FILE}.sh"
   echo -e 'iptables-save | awk '"'"'!seen[$0]++'"'"'|iptables-restore\n' >> "${FILE}.sh"
   chmod 700 "${FILE}.sh"
 done
